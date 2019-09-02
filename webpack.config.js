@@ -1,3 +1,6 @@
+var path = require("path");
+var Dotenv = require("dotenv-webpack");
+
 module.exports = {
 	entry: "./src/index.js", // path to entry script
 	output: {
@@ -11,6 +14,7 @@ module.exports = {
 		publicPath: "/dist/",
 	},
 	devtool: "inline-source-map",
+	plugins: [new Dotenv()],
 	module: {
 		// defining the actual behavior the webpack bundler
 		rules: [
@@ -21,5 +25,10 @@ module.exports = {
 				use: ["babel-loader"], // processor dependency name
 			},
 		],
+	},
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "src/"),
+		},
 	},
 };

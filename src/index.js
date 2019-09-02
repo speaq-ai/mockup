@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import VisualizerContainer from "@/containers/visualizer";
+import { Provider } from "react-redux";
+import store from "@/ducks";
 
 class Root extends Component {
 	render() {
-		return <h1>I'm working!</h1>;
+		return (
+			<Provider store={store}>
+				<VisualizerContainer />
+			</Provider>
+		);
 	}
 }
 

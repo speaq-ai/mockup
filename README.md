@@ -2,7 +2,7 @@
 
 ## Setup
 
-1. Clone this repository onto your local machine.
+1. Clone this repository onto your local machine: `gir clone https://github.com/speaq-ai/mockup.git`.
 2. Install yarn: `brew install yarn` on Mac, for other OS see [docs](https://yarnpkg.com/lang/en/docs/install/#mac-stable).
 3. Install dependencies: `yarn install`.
 
