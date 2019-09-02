@@ -5,6 +5,11 @@
 1. Clone this repository onto your local machine: `gir clone https://github.com/speaq-ai/mockup.git`.
 2. Install yarn: `brew install yarn` on Mac, for other OS see [docs](https://yarnpkg.com/lang/en/docs/install/#mac-stable).
 3. Install dependencies: `yarn install`.
+4. create a `.env` file in the root directory of this project. Set the following environment variables with appropriate values.
+
+```
+MAPBOX_ACCESS_TOKEN=<your-mapbox-token>
+```
 
 ## Usage
 
