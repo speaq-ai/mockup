@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import KeplerGl from "kepler.gl";
-import { addDataToMap } from "kepler.gl/actions";
+import { addDataToMap, layerTypeChange } from "kepler.gl/actions";
 import { processCsvData } from "kepler.gl/processors";
 import store from "@/ducks";
 import mockupData from "../../data/mockupData";
+
+var dataLoaded = false;
 
 class Visualizer extends Component {
 	constructor(props) {
@@ -35,20 +37,28 @@ class Visualizer extends Component {
 	}
 
 	loadMap() {
-		// load sample data and process csv file
-		this.props.dispatch(
-			addDataToMap({
-				datasets: [
-					{
-						info: {
-							label: "Sacramento Real Estate Transactions",
-							id: "mockup_data",
+		if (!dataLoaded) {
+			dataLoaded = true;
+
+			// load sample data and process csv file
+			this.props.dispatch(
+				addDataToMap({
+					datasets: [
+						{
+							info: {
+								label: "Sacramento Real Estate Transactions",
+								id: "mockup_data",
+							},
+							data: processCsvData(mockupData),
 						},
-						data: processCsvData(mockupData),
-					},
-				],
-			})
-		);
+					],
+				})
+			);
+		} else {
+			this.props.dispatch(
+				layerTypeChange(store.getState().keplerGl.foo.visState.layers[0], "heatmap")
+			);
+		}
 	}
 }
 
