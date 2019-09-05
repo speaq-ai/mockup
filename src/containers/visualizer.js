@@ -3,9 +3,13 @@ import { connect } from "react-redux";
 import Visualizer from "@/components/visualizer";
 
 class VisualizerContainer extends Component {
-	render() {
-		return <Visualizer />;
-	}
+    render() {
+        return (
+        <div>
+			<Visualizer />
+        </div>
+        );
+    }
 }
 
 const mapStateToProps = state => state;

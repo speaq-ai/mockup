@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import KeplerGl from "kepler.gl";
-import { addDataToMap } from 'kepler.gl/actions';
-import { processCsvData } from 'kepler.gl/processors';
+import { addDataToMap, layerTypeChange } from "kepler.gl/actions";
+import { processCsvData } from "kepler.gl/processors";
 import store from "@/ducks";
-import mockupData from '../../data/mockupData';
+import mockupData from "../../data/mockupData";
+
+var dataLoaded = false;
 
 class Visualizer extends Component {
 	constructor(props) {
@@ -20,7 +22,9 @@ class Visualizer extends Component {
 		const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN;
 		return (
 			<div>
-				<button type="button" value="Talk" onClick={this.loadMap} />
+				<div style={buttonDivStyle}>
+					<RecordButton width="25px" height="25px" onClick={this.loadMap} />
+				</div>
 				<KeplerGl
 					id="foo"
 					store={store}
@@ -33,22 +37,75 @@ class Visualizer extends Component {
 	}
 
 	loadMap() {
-		// load sample data and process csv file
-		this.props.dispatch(
-			addDataToMap({
-				datasets: [
-					{
-						info: {
-							label: 'Sacramento Real Estate Transactions',
-							id: 'mockup_data'
+		if (!dataLoaded) {
+			dataLoaded = true;
+
+			// load sample data and process csv file
+			this.props.dispatch(
+				addDataToMap({
+					datasets: [
+						{
+							info: {
+								label: "Sacramento Real Estate Transactions",
+								id: "mockup_data",
+							},
+							data: processCsvData(mockupData),
 						},
-						data: processCsvData(mockupData)
-					}
-				]
-			})
+					],
+				})
+			);
+		} else {
+			this.props.dispatch(
+				layerTypeChange(store.getState().keplerGl.foo.visState.layers[0], "heatmap")
+			);
+		}
+	}
+}
+
+class RecordButton extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			display: "images/icons/microphone.png",
+		};
+		this.handleClick = this.handleClick.bind(this);
+	}
+
+	handleClick() {
+		const { display } = this.state;
+		this.setState({
+			display: "images/icons/speech.gif",
+		});
+		setTimeout(() => {
+			this.setState({ display: "images/icons/microphone.png" });
+			this.props.onClick();
+		}, 3000);
+	}
+
+	render() {
+		return (
+			<button onClick={this.handleClick} style={buttonStyle}>
+				<img
+					src={this.state.display}
+					width={this.props.width}
+					height={this.props.height}
+				/>
+			</button>
 		);
 	}
 }
+
+const buttonDivStyle = {
+	backgroundColor: "#2f404a",
+	textAlign: "center",
+};
+
+const buttonStyle = {
+	backgroundColor: "#2c2d2d",
+	borderColor: "#2c2d2d",
+	width: "50px",
+	outline: "None",
+};
 
 const mapStateToProps = state => state;
 
