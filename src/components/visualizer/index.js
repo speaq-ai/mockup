@@ -20,7 +20,9 @@ class Visualizer extends Component {
 		const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN;
 		return (
 			<div>
-				<button type="button" value="Talk" onClick={this.loadMap} />
+				<div style={buttonDivStyle}>
+                	<RecordButton width="25px" height="25px" onClick={this.loadMap}/>
+            	</div>
 				<KeplerGl
 					id="foo"
 					store={store}
@@ -48,6 +50,39 @@ class Visualizer extends Component {
 			})
 		);
 	}
+}
+
+class RecordButton extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            display: "images/icons/microphone.png"
+        }
+        this.handleClick = this.handleClick.bind(this);
+    }
+ 
+    handleClick() {
+        setTimeout(this.props.onClick, 3000)      
+    }
+ 
+    render() {
+        return (
+            <button onClick={this.handleClick} style={buttonStyle}>
+                <img src={this.state.display} width={this.props.width} height={this.props.height}/>
+            </button>
+        )
+    } 
+}
+ 
+const buttonDivStyle = {
+    backgroundColor: '#2f404a',
+    textAlign: 'center'
+};
+ 
+const buttonStyle = {
+    backgroundColor: '#2c2d2d',
+    borderColor: '#2c2d2d',
+    width: '50px'
 }
 
 const mapStateToProps = state => state;
