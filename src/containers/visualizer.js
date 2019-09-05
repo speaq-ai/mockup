@@ -62,7 +62,3 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps
 )(VisualizerContainer);
-
-function clickButton() {
-	setTimeout(loadData, 3000)
-}
