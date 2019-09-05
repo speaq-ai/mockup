@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import KeplerGl from "kepler.gl";
-import { addDataToMap, processCsvData } from 'kepler.gl/actions';
+import { addDataToMap } from 'kepler.gl/actions';
+import { processCsvData } from 'kepler.gl/processors';
 import store from "@/ducks";
 import mockupData from '../../data/mockupData';
 
-export default class Visualizer extends Component {
+class Visualizer extends Component {
 	constructor(props) {
 		super(props);
 
@@ -47,3 +49,12 @@ export default class Visualizer extends Component {
 		);
 	}
 }
+
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Visualizer);
